@@ -27,7 +27,7 @@
     <string name="empty">Message vide non envoyé</string>
     <string name="go">Message envoyé à :</string>
     <string name="history">Historique</string>
-    <string name="how_many">Combien&#8230; !?</string>
+    <string name="how_many">Nombre de messages :</string>
     <string name="message">OverFlow est une application d\'envoie de messages en masse.\n\nEnjoy ;)</string>
     <string name="none">Aucun contact trouvé</string>
     <string name="number">Numéro</string>

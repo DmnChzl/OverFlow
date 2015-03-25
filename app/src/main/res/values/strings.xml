@@ -30,7 +30,7 @@
     <string name="empty">Empty message not sent</string>
     <string name="go">Message send to :</string>
     <string name="history">History</string>
-    <string name="how_many">How many&#8230; !?</string>
+    <string name="how_many">Number of messages :</string>
     <string name="message">OverFlow is a send mass messages application.\n\nEnjoy ;)</string>
     <string name="messages" translatable="false">Messages</string>
     <string name="none">No contact found</string>

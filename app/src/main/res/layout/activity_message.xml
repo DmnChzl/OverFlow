@@ -18,9 +18,10 @@
 -->
 
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical" >
 
     <TextView
         android:id="@+id/textViewTitle"
@@ -31,9 +32,10 @@
         android:text="@string/how_many"
         android:layout_gravity="center_horizontal|start"
         android:layout_alignParentStart="true"
-        android:layout_marginTop="8dp"
-        android:layout_marginStart="11dp" />
+        android:layout_marginTop="12dp"
+        android:layout_marginStart="12dp" />
 
+    <!--
     <RelativeLayout
         android:layout_width="40dp"
         android:layout_height="40dp"
@@ -65,6 +67,21 @@
         android:progress="0"
         android:max="29"
         android:layout_marginTop="54dp" />
+    -->
+
+    <com.doomy.library.DiscreteSeekBar
+        android:id="@+id/myDiscreteSeekBar"
+        android:layout_marginEnd="12dp"
+        android:layout_marginStart="12dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:dsb_min="1"
+        app:dsb_max="30"
+        app:dsb_value="1"
+        app:dsb_progressColor="@color/teal"
+        app:dsb_rippleColor="#80009688"
+        app:dsb_indicatorColor="@color/teal"
+        android:layout_marginTop="64dp" />
 
     <FrameLayout
         android:id="@+id/fragment_container"

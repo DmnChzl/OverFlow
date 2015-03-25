@@ -235,12 +235,12 @@ public class MainActivity extends Activity {
             }
         });
 
-        ContextThemeWrapper mContextThemeWrapper = new ContextThemeWrapper(MainActivity.this, R.style.DialogTheme); // Material Light Theme
-        AlertDialog mAlertDialog = new AlertDialog.Builder(mContextThemeWrapper).create();
+        // ContextThemeWrapper mThemeWrapper = new ContextThemeWrapper(MainActivity.this, R.style.DialogTheme);
+        AlertDialog.Builder mAlertDialog = new AlertDialog.Builder(MainActivity.this, R.style.DialogTheme);
 
         mAlertDialog.setTitle(getString(R.string.about));
         mAlertDialog.setView(mView);
-        mAlertDialog.setButton(getString(R.string.okay), new DialogInterface.OnClickListener() {
+        mAlertDialog.setPositiveButton(getString(R.string.okay), new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 dialog.dismiss();
@@ -254,11 +254,12 @@ public class MainActivity extends Activity {
         mValue = getSharedPreferences("PREFERENCE", MODE_PRIVATE).getBoolean("mValue", true);
 
         if (mValue){
-            AlertDialog mAlertDialog = new AlertDialog.Builder(MainActivity.this).create();
+            // ContextThemeWrapper mThemeWrapper = new ContextThemeWrapper(MainActivity.this, R.style.DialogTheme);
+            AlertDialog.Builder mAlertDialog = new AlertDialog.Builder(MainActivity.this, R.style.DialogTheme);
 
             mAlertDialog.setTitle(getString(R.string.title));
             mAlertDialog.setMessage(getString(R.string.message));
-            mAlertDialog.setButton(getString(R.string.okay), new DialogInterface.OnClickListener() {
+            mAlertDialog.setPositiveButton(getString(R.string.okay), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     dialog.dismiss();
@@ -275,12 +276,17 @@ public class MainActivity extends Activity {
         SnackbarManager.show(
                 Snackbar.with(this)
                         .text(getString(R.string.snackbar))
-                        .textColor(getResources().getColor(R.color.greyEmpty))
+                        .textColor(getResources().getColor(R.color.materialLight))
                         .color(getResources().getColor(R.color.material))
                         .eventListener(new EventListener() {
                             @Override
                             public void onShow(Snackbar snackbar) {
                                 mFAB.animate().translationY(-snackbar.getHeight());
+                            }
+
+                            @Override
+                            public void onShowByReplace(Snackbar snackbar) {
+
                             }
 
                             @Override
@@ -291,6 +297,11 @@ public class MainActivity extends Activity {
                             @Override
                             public void onDismiss(Snackbar snackbar) {
                                 mFAB.animate().translationY(0);
+                            }
+
+                            @Override
+                            public void onDismissByReplace(Snackbar snackbar) {
+
                             }
 
                             @Override

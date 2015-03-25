@@ -59,7 +59,7 @@
                 android:layout_width="match_parent"
                 android:layout_marginEnd="20dp"
                 android:layout_height="1px"
-                android:background="@color/greyDark" />
+                android:background="@color/material" />
 
             <TextView
                 android:id="@+id/textViewNumb"
@@ -71,7 +71,7 @@
                 android:layout_marginEnd="8dp"
                 android:textSize="14sp"
                 android:maxLines="20"
-                android:textColor="@color/greyDark" />
+                android:textColor="@color/material" />
 
         </LinearLayout>
 
