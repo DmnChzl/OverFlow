@@ -32,8 +32,6 @@ import android.view.ViewGroup;
 import android.app.Activity;
 import android.view.WindowManager;
 import android.widget.EditText;
-import android.widget.SeekBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.getbase.floatingactionbutton.FloatingActionButton;
@@ -45,10 +43,8 @@ public class MessageFragment extends Fragment {
     // Declare your view and variables
     private FloatingActionButton mFAB;
 	private Vibrator mVibe;
-    // private SeekBar mSeekBar;
     private DiscreteSeekBar mDiscreteSeekBar;
     private EditText mMessage;
-    // private TextView mTextView;
     private int mProgressChanged;
     private DataBase mDB;
 
@@ -79,24 +75,6 @@ public class MessageFragment extends Fragment {
         mProgressChanged = 1;
 		mVibe = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
         mMessage = (EditText) mView.findViewById(R.id.editTextMessage);
-        // mTextView = (TextView) getActivity().findViewById(R.id.textViewSeekBar);
-        /*
-        mSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-
-            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser){
-                mProgressChanged = progress+1;
-                mTextView.setText(mProgressChanged+"");
-            }
-
-            public void onStartTrackingTouch(SeekBar seekBar) {
-                // TODO Auto-generated method stub
-            }
-
-            public void onStopTrackingTouch(SeekBar seekBar) {
-                mTextView.setText(mProgressChanged+"");
-            }
-        });
-        */
 
         mDiscreteSeekBar = (DiscreteSeekBar) getActivity().findViewById(R.id.myDiscreteSeekBar);
         mDiscreteSeekBar.setOnProgressChangeListener(new DiscreteSeekBar.OnProgressChangeListener() {

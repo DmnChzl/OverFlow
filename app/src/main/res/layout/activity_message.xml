@@ -35,40 +35,6 @@
         android:layout_marginTop="12dp"
         android:layout_marginStart="12dp" />
 
-    <!--
-    <RelativeLayout
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:background="@drawable/layout"
-        android:elevation="10dp"
-        android:layout_alignParentEnd="true"
-        android:layout_marginTop="11dp"
-        android:layout_marginEnd="8dp" >
-
-        <TextView
-            android:id="@+id/textViewSeekBar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceMedium"
-            android:textStyle="bold"
-            android:textColor="@color/teal"
-            android:text="1"
-            android:layout_centerVertical="true"
-            android:layout_centerHorizontal="true"/>
-
-        </RelativeLayout>
-
-    <SeekBar
-        android:id="@+id/mySeekBar"
-        android:layout_marginEnd="12dp"
-        android:layout_marginStart="12dp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:progress="0"
-        android:max="29"
-        android:layout_marginTop="54dp" />
-    -->
-
     <com.doomy.library.DiscreteSeekBar
         android:id="@+id/myDiscreteSeekBar"
         android:layout_marginEnd="12dp"

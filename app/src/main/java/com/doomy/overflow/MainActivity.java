@@ -31,7 +31,6 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
-import android.view.ContextThemeWrapper;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -235,7 +234,6 @@ public class MainActivity extends Activity {
             }
         });
 
-        // ContextThemeWrapper mThemeWrapper = new ContextThemeWrapper(MainActivity.this, R.style.DialogTheme);
         AlertDialog.Builder mAlertDialog = new AlertDialog.Builder(MainActivity.this, R.style.DialogTheme);
 
         mAlertDialog.setTitle(getString(R.string.about));
@@ -254,7 +252,6 @@ public class MainActivity extends Activity {
         mValue = getSharedPreferences("PREFERENCE", MODE_PRIVATE).getBoolean("mValue", true);
 
         if (mValue){
-            // ContextThemeWrapper mThemeWrapper = new ContextThemeWrapper(MainActivity.this, R.style.DialogTheme);
             AlertDialog.Builder mAlertDialog = new AlertDialog.Builder(MainActivity.this, R.style.DialogTheme);
 
             mAlertDialog.setTitle(getString(R.string.title));
@@ -276,8 +273,8 @@ public class MainActivity extends Activity {
         SnackbarManager.show(
                 Snackbar.with(this)
                         .text(getString(R.string.snackbar))
-                        .textColor(getResources().getColor(R.color.materialLight))
-                        .color(getResources().getColor(R.color.material))
+                        .textColor(getResources().getColor(R.color.greyMaterialLight))
+                        .color(getResources().getColor(R.color.greyMaterialDark))
                         .eventListener(new EventListener() {
                             @Override
                             public void onShow(Snackbar snackbar) {
