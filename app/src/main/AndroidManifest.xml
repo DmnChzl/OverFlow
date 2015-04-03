@@ -56,6 +56,9 @@
             android:label="@string/send"
             android:screenOrientation="portrait" />
 
+        <service
+            android:enabled="true" android:name=".SendService" />
+
     </application>
 
 </manifest>

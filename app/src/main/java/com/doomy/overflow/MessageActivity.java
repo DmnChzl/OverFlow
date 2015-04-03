@@ -19,13 +19,25 @@ package com.doomy.overflow;
 
 import android.app.ActionBar;
 import android.app.Activity;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.view.Window;
+import android.view.WindowManager;
+import android.widget.TextView;
+
+import com.doomy.library.DiscreteSeekBar;
 
 public class MessageActivity extends Activity {
 
     // Declare your view and variables
     private ActionBar mActionBar;
     private String mRecipient;
+    private int mColor;
+    private int mColorDark;
+    private TextView mTextViewQuantity;
+    private TextView mTextViewDelay;
+    private DiscreteSeekBar mDiscreteSeekBarQuantity;
+    private DiscreteSeekBar mDiscreteSeekBarDelay;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,12 +46,40 @@ public class MessageActivity extends Activity {
 
         Bundle mExtra = getIntent().getExtras();
 
+        mColor = mExtra.getInt("color");
+        mColorDark = mExtra.getInt("colordark");
         mRecipient = getString(R.string.recipient) + " " + mExtra.getString("fullname");
 
-        mActionBar = getActionBar();
-        mActionBar.setTitle(mRecipient);
+        initializeView(mColor, mColorDark, mRecipient);
 
         MessageFragment mFragment = new MessageFragment();
         getFragmentManager().beginTransaction().replace(R.id.fragment_container, mFragment).commit();
+    }
+
+    private void initializeView(int myColor, int myColorDark, String myRecipient) {
+
+        Window mWindow = getWindow();
+        mWindow.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        mWindow.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+
+        ActionBar mActionBar = getActionBar();
+
+        ColorDrawable mColorDrawable = new ColorDrawable(getResources().getColor(myColor));
+        mWindow.setStatusBarColor(getResources().getColor(myColorDark));
+
+        mActionBar.setBackgroundDrawable(mColorDrawable);
+        mActionBar.setTitle(myRecipient);
+
+        mTextViewQuantity = (TextView) findViewById(R.id.textViewQuantity);
+        mTextViewQuantity.setTextColor(getResources().getColor(myColorDark));
+
+        mTextViewDelay = (TextView) findViewById(R.id.textViewDelay);
+        mTextViewDelay.setTextColor(getResources().getColor(myColorDark));
+
+        mDiscreteSeekBarQuantity = (DiscreteSeekBar) findViewById(R.id.discreteSeekBarQuantity);
+        mDiscreteSeekBarQuantity.setScrubberColor(getResources().getColor(myColor));
+
+        mDiscreteSeekBarDelay = (DiscreteSeekBar) findViewById(R.id.discreteSeekBarDelay);
+        mDiscreteSeekBarDelay.setScrubberColor(getResources().getColor(myColor));
     }
 }

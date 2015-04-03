@@ -17,8 +17,6 @@
 
 package com.doomy.overflow;
 
-import java.util.List;
-
 import android.app.Activity;
 import android.content.Context;
 import android.text.Html;
@@ -28,6 +26,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import java.util.List;
 
 public class ListViewAdapter extends ArrayAdapter<Contact> {
 
@@ -77,8 +77,8 @@ public class ListViewAdapter extends ArrayAdapter<Contact> {
                 && mContact.getPhoneNumber().trim().length() > 0) {
             mHolder.myPhoneNumber.setText(Html.fromHtml(mContact.getPhoneNumber()));
         }
-        mHolder.myFullName.setTextColor(getContext().getResources().getColor(mContact.getColorize()));
-        mHolder.myImageContact.setColorFilter(getContext().getResources().getColor(mContact.getColorize()));
+        mHolder.myFullName.setTextColor(getContext().getResources().getColor(mContact.getColorDark()));
+        mHolder.myImageContact.setColorFilter(getContext().getResources().getColor(mContact.getColorDark()));
         return mView;
     }
 

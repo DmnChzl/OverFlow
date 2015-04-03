@@ -17,11 +17,10 @@
 
 package com.doomy.overflow;
 
-import java.util.ArrayList;
-
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.NotificationManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.PorterDuff;
@@ -44,6 +43,8 @@ import com.getbase.floatingactionbutton.FloatingActionButton;
 import com.nispok.snackbar.Snackbar;
 import com.nispok.snackbar.SnackbarManager;
 import com.nispok.snackbar.listeners.EventListener;
+
+import java.util.ArrayList;
 
 public class MainActivity extends Activity {
 
@@ -124,6 +125,12 @@ public class MainActivity extends Activity {
         super.onPause();
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        stopService(new Intent(MainActivity.this, SendService.class));
+    }
+
     public static void initRows() {
 
         if (mDB.getRowsCount() > 0) {
@@ -156,6 +163,10 @@ public class MainActivity extends Activity {
 
     public void deleteRows() {
 
+        killNotification();
+
+        showSnackBar();
+
         invalidateOptionsMenu();
 
         mMessage.clear();
@@ -166,8 +177,11 @@ public class MainActivity extends Activity {
         mDB.deleteAll();
 
         MainActivity.mRelativeLayout.setAlpha(1);
+    }
 
-        showSnackBar();
+    private void killNotification() {
+        NotificationManager mNotificationManager = (NotificationManager)getSystemService(NOTIFICATION_SERVICE);
+        mNotificationManager.cancel(0);
     }
 
     @Override
@@ -205,10 +219,36 @@ public class MainActivity extends Activity {
             return true;
         }
         if (id == R.id.action_clear) {
-            deleteRows();
+            openDeleteDialog();
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    // Create AlertDialog for delete messages
+    private void openDeleteDialog() {
+        AlertDialog.Builder mAlertDialog = new AlertDialog.Builder(MainActivity.this, R.style.DialogTheme);
+
+        String mText = getString(R.string.dialog_message);
+
+        if (mDB.getRowsCount() > 1) {
+            mText = getString(R.string.dialog_messages);
+        }
+
+        mAlertDialog.setMessage(mText);
+        mAlertDialog.setPositiveButton("Oui", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        deleteRows();
+                    }
+                });
+        mAlertDialog.setNegativeButton("Non", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+        mAlertDialog.show();
     }
 
     // Create AlertDialog for the about view
@@ -254,9 +294,9 @@ public class MainActivity extends Activity {
         if (mValue){
             AlertDialog.Builder mAlertDialog = new AlertDialog.Builder(MainActivity.this, R.style.DialogTheme);
 
-            mAlertDialog.setTitle(getString(R.string.title));
-            mAlertDialog.setMessage(getString(R.string.message));
-            mAlertDialog.setPositiveButton(getString(R.string.okay), new DialogInterface.OnClickListener() {
+            mAlertDialog.setTitle(getString(R.string.title))
+                    .setMessage(getString(R.string.message))
+                    .setPositiveButton(getString(R.string.okay), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     dialog.dismiss();
@@ -269,10 +309,17 @@ public class MainActivity extends Activity {
     }
 
     public void showSnackBar() {
+
+        String mText = getString(R.string.snackbar_message);
+
+        if (mDB.getRowsCount() > 1) {
+            mText = getString(R.string.snackbar_messages);
+        }
+
         mFAB = (FloatingActionButton) findViewById(R.id.searchContact);
         SnackbarManager.show(
                 Snackbar.with(this)
-                        .text(getString(R.string.snackbar))
+                        .text(mText)
                         .textColor(getResources().getColor(R.color.greyMaterialLight))
                         .color(getResources().getColor(R.color.greyMaterialDark))
                         .eventListener(new EventListener() {

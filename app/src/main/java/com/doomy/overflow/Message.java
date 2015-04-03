@@ -24,18 +24,18 @@ public class Message {
     private String Recipient;
     private int Color;
     private String Text;
-    private String Number;
+    private String Quantity;
 
     public Message() {
         super();
     }
 
-    public Message (String mRecipient, int mColor, String mText, String mNumber) {
+    public Message (String mRecipient, int mColor, String mText, String mQuantity) {
         this.ID = Message.mCount++;
         this.Recipient = mRecipient;
         this.Color = mColor;
         this.Text = mText;
-        this.Number = mNumber;
+        this.Quantity = mQuantity;
     }
 
     public int getID() {
@@ -70,16 +70,16 @@ public class Message {
         Text = text;
     }
 
-    public String getNumber() {
-        return Number;
+    public String getQuantity() {
+        return Quantity;
     }
 
-    public void setNumber(String number) {
-        Number = number;
+    public void setQuantity(String quantity) {
+        Quantity = quantity;
     }
 
     @Override
     public String toString() {
-        return "Contact [ID = " + ID + ", Recipient = " + Recipient + "]";
+        return "Contact [ID : " + ID + ", Recipient : " + Recipient + "]";
     }
 }

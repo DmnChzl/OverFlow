@@ -16,15 +16,15 @@
 
 package com.doomy.overflow;
 
-import java.util.LinkedList;
-import java.util.List;
-
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
+
+import java.util.LinkedList;
+import java.util.List;
 
 public class DataBase extends SQLiteOpenHelper {
 
@@ -98,7 +98,7 @@ public class DataBase extends SQLiteOpenHelper {
         mMessage.setRecipient(mCursor.getString(1));
         mMessage.setColor(Integer.parseInt(mCursor.getString(2)));
         mMessage.setText(mCursor.getString(3));
-        mMessage.setNumber(mCursor.getString(4));
+        mMessage.setQuantity(mCursor.getString(4));
         // Log
         Log.i("SQLite DB : Show One  : ID =  " + id, mMessage.toString());
 
@@ -119,7 +119,7 @@ public class DataBase extends SQLiteOpenHelper {
                 mMessage.setRecipient(mCursor.getString(1));
                 mMessage.setColor(Integer.parseInt(mCursor.getString(2)));
                 mMessage.setText(mCursor.getString(3));
-                mMessage.setNumber(mCursor.getString(4));
+                mMessage.setQuantity(mCursor.getString(4));
                 mMessages.add(mMessage);
             } while (mCursor.moveToNext());
         }
@@ -135,7 +135,7 @@ public class DataBase extends SQLiteOpenHelper {
         values.put(KEY_RECIPIENT, mMessage.getRecipient());
         values.put(KEY_COLOR, mMessage.getColor());
         values.put(KEY_TEXT, mMessage.getText());
-        values.put(KEY_NUMBER, mMessage.getNumber());
+        values.put(KEY_NUMBER, mMessage.getQuantity());
         // Insertion
         mDB.insert(TABLE_NAME, // Table
                 null, values);
@@ -152,7 +152,7 @@ public class DataBase extends SQLiteOpenHelper {
         values.put(KEY_RECIPIENT, mMessage.getRecipient());
         values.put(KEY_COLOR, mMessage.getColor());
         values.put(KEY_TEXT, mMessage.getText());
-        values.put(KEY_NUMBER, mMessage.getNumber());
+        values.put(KEY_NUMBER, mMessage.getQuantity());
 
         int i = mDB.update(TABLE_NAME, // Table
                 values, // Column/Value

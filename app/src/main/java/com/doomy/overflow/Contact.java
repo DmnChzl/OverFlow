@@ -23,15 +23,15 @@ public class Contact {
     private int ID;
     private String FullName;
     private String PhoneNumber;
-    private int Colorize;
+    private int ColorDark;
 
     public Contact() {};
 
-    public Contact (String mFullName, String mPhoneNumber, int mColorize) {
+    public Contact (String mFullName, String mPhoneNumber, int mColorDark) {
         this.ID = Contact.mCount++;
         this.FullName = mFullName;
         this.PhoneNumber = mPhoneNumber;
-        this.Colorize = mColorize;
+        this.ColorDark = mColorDark;
     }
 
     public String getFullName() {
@@ -50,16 +50,16 @@ public class Contact {
         PhoneNumber = phoneNumber;
     }
 
-    public int getColorize() {
-        return Colorize;
+    public int getColorDark() {
+        return ColorDark;
     }
 
-    public void setColorize(int colorize) {
-        Colorize = colorize;
+    public void setColorDark(int colorDark) {
+        ColorDark = colorDark;
     }
 
     @Override
     public String toString() {
-        return "Contact [ID = " + ID + ", FullName = " + FullName + ", PhoneNumber = " + PhoneNumber + "]";
+        return "Contact [ID : " + ID + ", FullName : " + FullName + ", PhoneNumber : " + PhoneNumber + "]";
     }
 }

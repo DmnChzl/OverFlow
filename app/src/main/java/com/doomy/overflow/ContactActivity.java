@@ -17,11 +17,6 @@
 
 package com.doomy.overflow;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-
 import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Intent;
@@ -34,6 +29,11 @@ import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 public class ContactActivity extends Activity implements OnItemClickListener {
 
@@ -71,7 +71,7 @@ public class ContactActivity extends Activity implements OnItemClickListener {
 
             if (mPhoneNumber.substring(0, 2).equals("06")||mPhoneNumber.substring(0, 2).equals("07")) {
                 Contact mContact = new Contact();
-                mContact.setColorize(randomColor());
+                mContact.setColorDark(randomColor());
                 mContact.setFullName(mFullName);
                 mContact.setPhoneNumber(mPhoneNumber);
                 mList.add(mContact);
@@ -110,13 +110,17 @@ public class ContactActivity extends Activity implements OnItemClickListener {
     @Override
     public void onItemClick(AdapterView<?> listview, View v, int position, long id) {
     	Contact myContact = (Contact) listview.getItemAtPosition(position);
-        String myName = myContact.getFullName();
-        String myPhoneNumber = myContact.getPhoneNumber();
-        int myColor = myContact.getColorize();
+
+        String myName = myContact.getFullName().toString();
+        String myPhoneNumber = myContact.getPhoneNumber().toString();
+        int myColorDark = myContact.getColorDark();
+        int myColor = normalColor(myColorDark);
+
         Intent mIntent = new Intent(ContactActivity.this, MessageActivity.class);
-        mIntent.putExtra("fullname", myName.toString());
-        mIntent.putExtra("phonenumber", myPhoneNumber.toString());
-        mIntent.putExtra("colorize", myColor);
+        mIntent.putExtra("fullname", myName);
+        mIntent.putExtra("phonenumber", myPhoneNumber);
+        mIntent.putExtra("colordark", myColorDark);
+        mIntent.putExtra("color", myColor);
         setResult(Activity.RESULT_OK, mIntent);
         startActivity(mIntent);
     }
@@ -130,6 +134,70 @@ public class ContactActivity extends Activity implements OnItemClickListener {
 
         int myColor = mTab[(int) Math.floor(Math.random() * mTab.length)];
 
+        return myColor;
+    }
+
+    public int normalColor(int myDarkColor) {
+        int myColor = R.color.indigo;
+        switch (myDarkColor) {
+            case R.color.redDark :
+                myColor = R.color.red;
+                break;
+            case R.color.pinkDark :
+                myColor = R.color.pink;
+                break;
+            case R.color.purpleDark :
+                myColor = R.color.purple;
+                break;
+            case R.color.deepPurpleDark :
+                myColor = R.color.deepPurple;
+                break;
+            case R.color.indigoDark :
+                myColor = R.color.indigo;
+                break;
+            case R.color.blueDark :
+                myColor = R.color.blue;
+                break;
+            case R.color.lightBlueDark :
+                myColor = R.color.lightBlue;
+                break;
+            case R.color.cyanDark :
+                myColor = R.color.cyan;
+                break;
+            case R.color.tealDark :
+                myColor = R.color.teal;
+                break;
+            case R.color.greenDark :
+                myColor = R.color.green;
+                break;
+            case R.color.lightGreenDark :
+                myColor = R.color.lightGreen;
+                break;
+            case R.color.limeDark :
+                myColor = R.color.lime;
+                break;
+            case R.color.yellowDark :
+                myColor = R.color.yellow;
+                break;
+            case R.color.amberDark :
+                myColor = R.color.amber;
+                break;
+            case R.color.orangeDark :
+                myColor = R.color.orange;
+                break;
+            case R.color.deepOrangeDark :
+                myColor = R.color.deepOrange;
+                break;
+            case R.color.brownDark :
+                myColor = R.color.brown;
+                break;
+            case R.color.greyDark :
+                myColor = R.color.grey;
+                break;
+            case R.color.blueGreyDark :
+                myColor = R.color.blueGrey;
+                break;
+        }
         return myColor;
     }
 

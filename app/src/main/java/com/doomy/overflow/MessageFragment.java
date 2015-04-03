@@ -18,14 +18,11 @@
 package com.doomy.overflow;
 
 import android.app.Fragment;
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Vibrator;
-import android.telephony.SmsManager;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,18 +31,20 @@ import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.getbase.floatingactionbutton.FloatingActionButton;
-
 import com.doomy.library.DiscreteSeekBar;
+
+import com.getbase.floatingactionbutton.FloatingActionButton;
 
 public class MessageFragment extends Fragment {
 
     // Declare your view and variables
     private FloatingActionButton mFAB;
 	private Vibrator mVibe;
-    private DiscreteSeekBar mDiscreteSeekBar;
-    private EditText mMessage;
-    private int mProgressChanged;
+    private DiscreteSeekBar mDiscreteSeekBarQuantity;
+    private DiscreteSeekBar mDiscreteSeekBarDelay;
+    private EditText mEditText;
+    private int mProgressQuantity;
+    private int mProgressDelay;
     private DataBase mDB;
 
     /**
@@ -60,7 +59,7 @@ public class MessageFragment extends Fragment {
         super.onCreate(savedInstanceState);
 
         mDB = new DataBase(getActivity());
-        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE|WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_VISIBLE | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
     }
 
     @Override
@@ -72,15 +71,16 @@ public class MessageFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         final View mView =inflater.inflate(R.layout.fragment_message,container,false);
 
-        mProgressChanged = 1;
+        mProgressQuantity = 1;
+        mProgressDelay = 1;
 		mVibe = (Vibrator) getActivity().getSystemService(Context.VIBRATOR_SERVICE);
-        mMessage = (EditText) mView.findViewById(R.id.editTextMessage);
+        mEditText = (EditText) mView.findViewById(R.id.editTextMessage);
 
-        mDiscreteSeekBar = (DiscreteSeekBar) getActivity().findViewById(R.id.myDiscreteSeekBar);
-        mDiscreteSeekBar.setOnProgressChangeListener(new DiscreteSeekBar.OnProgressChangeListener() {
+        mDiscreteSeekBarQuantity = (DiscreteSeekBar) getActivity().findViewById(R.id.discreteSeekBarQuantity);
+        mDiscreteSeekBarQuantity.setOnProgressChangeListener(new DiscreteSeekBar.OnProgressChangeListener() {
             @Override
-            public void onProgressChanged(DiscreteSeekBar seekBar, int progress, boolean fromUser) {
-                mProgressChanged = progress;
+            public void onProgressChanged(DiscreteSeekBar seekBar, int value, boolean fromUser) {
+                mProgressQuantity = value;
             }
 
             @Override
@@ -90,11 +90,34 @@ public class MessageFragment extends Fragment {
 
             @Override
             public void onStopTrackingTouch(DiscreteSeekBar seekBar) {
-                if (mProgressChanged == 1) {
-                    mMessage.setHint(getString(R.string.write));
-                } else {
-                    mMessage.setHint(getString(R.string.write) + "  x" + mProgressChanged);
+                updateEditText();
+            }
+        });
+
+        mDiscreteSeekBarDelay = (DiscreteSeekBar) getActivity().findViewById(R.id.discreteSeekBarDelay);
+        mDiscreteSeekBarDelay.setOnProgressChangeListener(new DiscreteSeekBar.OnProgressChangeListener() {
+            @Override
+            public void onProgressChanged(DiscreteSeekBar seekBar, int value, boolean fromUser) {
+                mProgressDelay = value;
+            }
+
+            @Override
+            public void onStartTrackingTouch(DiscreteSeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(DiscreteSeekBar seekBar) {
+                int mTemp = mProgressQuantity;
+                updateToast();
+                if (mTemp >= mDiscreteSeekBarQuantity.getMax()) {
+                    mDiscreteSeekBarQuantity.setProgress(0);
+                    mDiscreteSeekBarQuantity.setProgress(mDiscreteSeekBarQuantity.getMax());
+                } else if (mTemp < mDiscreteSeekBarQuantity.getMax()) {
+                    mDiscreteSeekBarQuantity.setProgress(0);
+                    mDiscreteSeekBarQuantity.setProgress(mTemp);
                 }
+                updateEditText();
             }
         });
 
@@ -105,22 +128,31 @@ public class MessageFragment extends Fragment {
                 Bundle mExtra = getActivity().getIntent().getExtras();
 
                 String mFullName = mExtra.getString("fullname");
-                int mColorize = mExtra.getInt("colorize");
+                String mPhoneNumber = mExtra.getString("phonenumber");
+                String mMessage = mEditText.getText().toString().trim();
+                int mColorDark = mExtra.getInt("colordark");
+                int mQuantity = mProgressQuantity;
+                int mDelay = mProgressDelay;
 
-                String myMessage = mMessage.getText().toString().trim();
-                int mSeekBar = mProgressChanged;
+                if (!mMessage.equals("")) {
+                    Intent mServiceIntent = new Intent(getActivity(), SendService.class);
+                    mServiceIntent.putExtra("fullname", mFullName);
+                    mServiceIntent.putExtra("phonenumber", mPhoneNumber);
+                    mServiceIntent.putExtra("message", mMessage);
+                    mServiceIntent.putExtra("quantity", mQuantity);
+                    mServiceIntent.putExtra("delay", mDelay);
+                    getActivity().startService(mServiceIntent);
 
-                if (!myMessage.equals("")) {
-					for (int i = 1; i <= mSeekBar; i++) {
-                        sendMessage(myMessage);
-						mVibe.vibrate(50);
-                    }
-                    Message mMessage = new Message(mFullName, mColorize, myMessage, "(" + mSeekBar + ")");
-                    mDB.addOne(mMessage);
-                    showNotification(mFullName);
+                    mVibe.vibrate(50);
+                    Message mDBMessage = new Message(mFullName, mColorDark, mMessage, "(" + mQuantity + ")");
+                    mDB.addOne(mDBMessage);
+                    ContactActivity.getInstance().finish();
+                    getActivity().finish();
                     MainActivity.syncRows();
                 } else {
-                    Toast.makeText(getActivity(), getString(R.string.empty), Toast.LENGTH_SHORT).show();
+                    Toast mToast = Toast.makeText(getActivity(), getString(R.string.empty), Toast.LENGTH_SHORT);
+                    mToast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 475);
+                    mToast.show();
                 }
             }
         });
@@ -128,38 +160,38 @@ public class MessageFragment extends Fragment {
         return mView;
     }
 
-    private void sendMessage(String mMessage) {
-        Bundle mExtra = getActivity().getIntent().getExtras();
-
-        String mPhoneNumber = mExtra.getString("phonenumber");
-
-        try {
-            SmsManager smsManager = SmsManager.getDefault();
-            smsManager.sendTextMessage(mPhoneNumber, null, mMessage, null, null);
-            ContactActivity.getInstance().finish();
-            getActivity().finish();
-        } catch (Exception e) {
-            e.printStackTrace();
+    private void updateEditText() {
+        if (mProgressQuantity == 1) {
+            mEditText.setHint(getString(R.string.write));
+        } else {
+            mEditText.setHint(getString(R.string.write) + "  x" + mProgressQuantity);
         }
+
     }
 
-    private void showNotification(String mText) {
-
-        Intent mIntent = new Intent(getActivity(), MainActivity.class);
-        PendingIntent mPendingIntent = PendingIntent.getActivity(getActivity(), 0, mIntent, 0);
-
-        Notification mNotification = new Notification.Builder(getActivity())
-                .setContentTitle(getString(R.string.app_name))
-                .setContentText(getString(R.string.go) + " " + mText + " (" + mProgressChanged + ")")
-                .setSmallIcon(R.drawable.ic_overflow)
-                .setContentIntent(mPendingIntent)
-                .setAutoCancel(true)
-                .build();
-
-        NotificationManager mNotificationManager = (NotificationManager)
-                getActivity().getSystemService(getActivity().NOTIFICATION_SERVICE);
-
-        mNotificationManager.notify(0, mNotification);
+    private void updateToast() {
+        Toast mToast = Toast.makeText(getActivity(), "Error !", Toast.LENGTH_LONG);
+        if (mProgressDelay == 1) {
+            mDiscreteSeekBarQuantity.setMax(30);
+            mToast = Toast.makeText(getActivity(), mProgressDelay + " " + getString(R.string.second), Toast.LENGTH_SHORT);
+        } else if (mProgressDelay >= 2&&mProgressDelay < 15) {
+            mDiscreteSeekBarQuantity.setMax(30);
+            mToast = Toast.makeText(getActivity(), mProgressDelay + " " + getString(R.string.seconds), Toast.LENGTH_SHORT);
+        } else if (mProgressDelay >= 15&&mProgressDelay < 30) {
+            mDiscreteSeekBarQuantity.setMax(25);
+            mToast =  Toast.makeText(getActivity(), mProgressDelay + " " + getString(R.string.seconds), Toast.LENGTH_SHORT);
+        } else if (mProgressDelay >= 30&&mProgressDelay < 45) {
+            mDiscreteSeekBarQuantity.setMax(20);
+            mToast = Toast.makeText(getActivity(), mProgressDelay + " " + getString(R.string.seconds), Toast.LENGTH_SHORT);
+        } else if (mProgressDelay >= 45&&mProgressDelay < 60) {
+            mDiscreteSeekBarQuantity.setMax(15);
+            mToast = Toast.makeText(getActivity(), mProgressDelay + " " + getString(R.string.seconds), Toast.LENGTH_SHORT);
+        } else if (mProgressDelay == 60) {
+            mDiscreteSeekBarQuantity.setMax(10);
+            mToast = Toast.makeText(getActivity(), "1 " + getString(R.string.minute), Toast.LENGTH_SHORT);
+        }
+        mToast.setGravity(Gravity.TOP | Gravity.CENTER_HORIZONTAL, 0, 475);
+        mToast.show();
     }
 
     @Override
