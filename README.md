@@ -1,10 +1,11 @@
 ![Image](https://raw.githubusercontent.com/MrDoomy/OverFlow/master/dev/images/overflow.png)
 
-This application is a send mass messages application.
+This application is an application to send programmed messages.
 
 This includes features like :
 - Retrive mobile phone numbers of contacts
 - Send messages
+- Choose delay between each message
 - Choose the number of messages to send
 - Be notified of the number of messages sent
 
@@ -22,6 +23,13 @@ This includes features like :
 - com.android.support:support-v4:22.0.0
 - com.getbase:floatingactionbutton:1.9.0
 - com.nispok:snackbar:2.10.6
+
+#QR Code
+
+<a href="https://play.google.com/store/apps/details?id=com.doomy.overflow">
+  <img alt="QR Code"
+       src="https://raw.githubusercontent.com/MrDoomy/OverFlow/master/dev/images/qrcode.png" />
+</a>
 
 #Screenshots
 
