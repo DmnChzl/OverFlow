@@ -27,7 +27,6 @@ import android.os.IBinder;
 import android.support.v4.app.NotificationCompat;
 import android.telephony.SmsManager;
 import android.util.Log;
-import android.widget.Toast;
 
 public class SendService extends Service{
 
@@ -81,6 +80,8 @@ public class SendService extends Service{
                             Log.e(TAG, "Fail");
                         }
                         sendMessage(mPhoneNumber, mMessage);
+                        mBuilder.setContentInfo(i+1+"");
+                        mNotifyManager.notify(0, mBuilder.build());
                     }
                     mBuilder.setContentText(getString(R.string.go) + " " + mFullName)
                             .setContentInfo(mQuantity+"")

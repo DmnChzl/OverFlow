@@ -18,16 +18,20 @@
 package com.doomy.overflow;
 
 import android.app.Activity;
+import android.app.SearchManager;
 import android.content.ContentResolver;
+import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.util.Log;
+import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -40,6 +44,7 @@ public class ContactActivity extends Activity implements OnItemClickListener {
 	// Declare your view and variables
     private static final String TAG = "ContactActivity";
     private ListView mListView;
+    private ListViewAdapter mAdapter;
     private List<Contact> mList = new ArrayList<>();
     private static ContactActivity mActivity;
 
@@ -69,7 +74,7 @@ public class ContactActivity extends Activity implements OnItemClickListener {
                     .getString(mCursor
                             .getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER));
 
-            if (mPhoneNumber.substring(0, 2).equals("06")||mPhoneNumber.substring(0, 2).equals("07")) {
+            if (mPhoneNumber.startsWith("06")||mPhoneNumber.startsWith("07")||mPhoneNumber.startsWith("+336")||mPhoneNumber.startsWith("+337")) {
                 Contact mContact = new Contact();
                 mContact.setColorDark(randomColor());
                 mContact.setFullName(mFullName);
@@ -79,7 +84,7 @@ public class ContactActivity extends Activity implements OnItemClickListener {
         }
         mCursor.close();
 
-        ListViewAdapter mAdapter = new ListViewAdapter(
+        mAdapter = new ListViewAdapter(
                 ContactActivity.this, R.layout.activity_contact, mList);
         mListView.setAdapter(mAdapter);
 
@@ -94,6 +99,32 @@ public class ContactActivity extends Activity implements OnItemClickListener {
         } else {
             Toast.makeText(this, getString(R.string.none), Toast.LENGTH_SHORT).show();
         }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_search, menu);
+
+        SearchManager mSearchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        SearchView mSearchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
+
+        mSearchView.setSearchableInfo(mSearchManager.getSearchableInfo(getComponentName()));
+        mSearchView.setIconifiedByDefault(true);
+        mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+           @Override
+           public boolean onQueryTextSubmit(String query) {
+               mAdapter.getFilter().filter(query);
+               return false;
+           }
+
+           @Override
+           public boolean onQueryTextChange(String newText) {
+               mAdapter.getFilter().filter(newText);
+               return false;
+           }
+        });
+
+        return true;
     }
 
     @Override

@@ -24,18 +24,22 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
 import java.util.List;
 
-public class ListViewAdapter extends ArrayAdapter<Contact> {
+public class ListViewAdapter extends ArrayAdapter<Contact> implements Filterable {
 
     // Declare your view and variables
     private Activity mActivity;
-    private List<Contact> mItems;
+    private List<Contact> mItems, mDatas;
     private int mRow;
     private Contact mContact;
+    private SearchFilter mFilter;
 
     public ListViewAdapter(Activity activity, int row, List<Contact> items) {
         super(activity, row, items);
@@ -43,6 +47,22 @@ public class ListViewAdapter extends ArrayAdapter<Contact> {
         this.mActivity = activity;
         this.mRow = row;
         this.mItems = items;
+        this.mDatas = items;
+    }
+
+    public int getCount()
+    {
+        return mItems.size();
+    }
+
+    public Contact getItem(int position)
+    {
+        return mItems.get(position);
+    }
+
+    public long getItemId(int position)
+    {
+        return mItems.get(position).hashCode();
     }
 
     @Override
@@ -85,5 +105,56 @@ public class ListViewAdapter extends ArrayAdapter<Contact> {
     public class ViewHolder {
         public ImageView myImageContact;
         public TextView myFullName, myPhoneNumber;
+    }
+
+    public Filter getFilter() {
+        if (mFilter == null) {
+            mFilter = new SearchFilter();
+        }
+        return mFilter;
+    }
+
+    private class SearchFilter extends Filter {
+
+        @Override
+        protected FilterResults performFiltering(CharSequence constraint)
+        {
+            String mConstraint = constraint.toString().toLowerCase();
+
+            FilterResults mResults = new FilterResults();
+
+            List<Contact> mFilteredContacts;
+
+            if (constraint != null && constraint.length() > 0) {
+
+                mFilteredContacts = new ArrayList<>();
+
+                for (Contact mContact : mDatas)
+                {
+                    if (mContact.getFullName().toLowerCase().contains(mConstraint))
+                    {
+                        mFilteredContacts.add(mContact);
+                    }
+                }
+            } else {
+                mFilteredContacts = mDatas;
+            }
+
+            synchronized (this)
+            {
+                mResults.count = mFilteredContacts.size();
+                mResults.values = mFilteredContacts;
+            }
+
+            return mResults ;
+        }
+
+        @Override
+        protected void publishResults(CharSequence constraint, FilterResults results)
+        {
+            List<Contact> mFilteredContacts = (List<Contact>) results.values;
+            mItems = mFilteredContacts;
+            notifyDataSetChanged();
+        }
     }
 }

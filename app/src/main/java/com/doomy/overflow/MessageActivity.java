@@ -62,7 +62,7 @@ public class MessageActivity extends Activity {
         mWindow.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         mWindow.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
 
-        ActionBar mActionBar = getActionBar();
+        mActionBar = getActionBar();
 
         ColorDrawable mColorDrawable = new ColorDrawable(getResources().getColor(myColor));
         mWindow.setStatusBarColor(getResources().getColor(myColorDark));

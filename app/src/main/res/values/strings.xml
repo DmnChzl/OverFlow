@@ -42,6 +42,7 @@
     <string name="okay" translatable="false">OK</string>
     <string name="quantity">Quantity :</string>
     <string name="recipient">To :</string>
+    <string name="search">Search</string>
     <string name="second">Second</string>
     <string name="seconds">Seconds</string>
     <string name="send">Send</string>

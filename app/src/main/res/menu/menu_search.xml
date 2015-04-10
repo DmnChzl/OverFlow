@@ -17,18 +17,11 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:orientation="vertical" >
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:tools="http://schemas.android.com/tools" tools:context=".MainActivity" >
 
-    <ListView
-        android:id="@+id/listView"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:layout_margin="5dp"
-        android:fadeScrollbars="false"
-        android:divider="@null"
-        android:scrollbars="vertical" />
+    <item android:id="@+id/action_search" android:actionViewClass="android.widget.SearchView"
+          android:title="@string/search" android:icon="@drawable/ic_search"
+          android:showAsAction="collapseActionView|ifRoom" />
 
-</RelativeLayout>
+</menu>

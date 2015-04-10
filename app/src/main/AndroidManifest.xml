@@ -49,7 +49,12 @@
         <activity
             android:name=".ContactActivity"
             android:label="@string/contacts"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait" >
+
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
+        </activity>
 
         <activity
             android:name=".MessageActivity"
