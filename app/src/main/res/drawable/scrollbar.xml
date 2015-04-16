@@ -17,18 +17,15 @@
     along with this program.  If not, see <http://www.gnu.org/licenses/>.
 -->
 
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="fill_parent"
-    android:orientation="vertical">
+<shape xmlns:android="http://schemas.android.com/apk/res/android"
+    android:shape="rectangle">
 
-    <ListView
-        android:id="@+id/listView"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:fadeScrollbars="true"
-        android:divider="@null"
-        android:scrollbars="vertical"
-        android:scrollbarThumbVertical="@drawable/scrollbar"/>
+    <gradient android:startColor="@color/indigo"
+        android:endColor="@color/indigo"
+        android:angle="45"/>
 
-</RelativeLayout>
+    <corners android:radius="5dp"/>
+
+    <size android:width="5dp"/>
+
+</shape>
