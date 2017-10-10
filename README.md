@@ -9,14 +9,14 @@ This includes features like :
 - Choose the number of messages to send
 - Be notified of the number of messages sent
 
-#Permission
+# Permissions
 
 - android.permission.READ_CONTACTS
 - android.permission.SEND_SMS
 - android.permission.VIBRATE
 - android.permission.WRITE_SMS
 
-#Dependencies
+# Dependencies
 
 - com.android.support:cardview-v7:22.0.0
 - com.android.support:recyclerview-v7:22.0.0
@@ -24,20 +24,20 @@ This includes features like :
 - com.getbase:floatingactionbutton:1.9.0
 - com.nispok:snackbar:2.10.6
 
-#QR Code
+# QR Code
 
 <a href="https://play.google.com/store/apps/details?id=com.doomy.overflow">
   <img alt="QR Code"
        src="https://raw.githubusercontent.com/MrDoomy/OverFlow/master/dev/images/qrcode.png" />
 </a>
 
-#Screenshots
+# Screenshots
 
 ![Image](https://raw.githubusercontent.com/MrDoomy/OverFlow/master/dev/screenshots/hammerhead_1_small.png)
 ![Image](https://raw.githubusercontent.com/MrDoomy/OverFlow/master/dev/screenshots/hammerhead_2_small.png)
 ![Image](https://raw.githubusercontent.com/MrDoomy/OverFlow/master/dev/screenshots/hammerhead_3_small.png)
 
-#License
+# License
 
     Copyright (C) 2013 Damien Chazoule
 
