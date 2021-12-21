@@ -50,7 +50,7 @@
     <string name="snackbar_message">Deleted message</string>
     <string name="snackbar_messages">Deleted messages</string>
     <string name="title">Hello</string>
-    <string name="url" translatable="false">https://github.com/MrDoomy/OverFlow</string>
+    <string name="url" translatable="false">https://github.com/DmnChzl/OverFlow</string>
     <string name="write">Your message&#8230;</string>
     <string name="yes">Yes</string>
 

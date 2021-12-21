@@ -1,4 +1,4 @@
-![Image](https://raw.githubusercontent.com/MrDoomy/OverFlow/master/dev/images/overflow.png)
+![Image](https://raw.githubusercontent.com/DmnChzl/OverFlow/master/dev/images/overflow.png)
 
 This application is an application to send programmed messages.
 
@@ -28,14 +28,14 @@ This includes features like :
 
 <a href="https://play.google.com/store/apps/details?id=com.doomy.overflow">
   <img alt="QR Code"
-       src="https://raw.githubusercontent.com/MrDoomy/OverFlow/master/dev/images/qrcode.png" />
+       src="https://raw.githubusercontent.com/DmnChzl/OverFlow/master/dev/images/qrcode.png" />
 </a>
 
 # Screenshots
 
-![Image](https://raw.githubusercontent.com/MrDoomy/OverFlow/master/dev/screenshots/hammerhead_1_small.png)
-![Image](https://raw.githubusercontent.com/MrDoomy/OverFlow/master/dev/screenshots/hammerhead_2_small.png)
-![Image](https://raw.githubusercontent.com/MrDoomy/OverFlow/master/dev/screenshots/hammerhead_3_small.png)
+![Image](https://raw.githubusercontent.com/DmnChzl/OverFlow/master/dev/screenshots/hammerhead_1_small.png)
+![Image](https://raw.githubusercontent.com/DmnChzl/OverFlow/master/dev/screenshots/hammerhead_2_small.png)
+![Image](https://raw.githubusercontent.com/DmnChzl/OverFlow/master/dev/screenshots/hammerhead_3_small.png)
 
 # License
 
